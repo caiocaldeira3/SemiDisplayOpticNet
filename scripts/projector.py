@@ -20,12 +20,12 @@ log = set(line.rstrip() for line in open(os.path.join(log_path, log_file), 'r'))
 file = open("scripts/logs/projectorLog.txt", "a+")
 file_lock = threading.Lock()
 
-projects = [ "cbOptNet" ]
+projects = [ "semiDisplayOpticNet" ]
 
 # parameters of simulation
-num_nodes = [ 128, 256, 512, 1024 ]
+num_nodes = [ 128 ]
 datasets = [ "tor" ]
-switch_sizes = [ 16, 32, 64, 128, 256, -1 ]
+switch_sizes = [ 16, 32 ]
 mus = [ 4 ]
 sequential = [ "false" ]
 num_simulations = 30
