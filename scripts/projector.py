@@ -31,7 +31,7 @@ sequential = [ "false" ]
 num_simulations = 30
 
 #number of threads to simulation
-num_threads = 2
+num_threads = 1
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
@@ -84,13 +84,19 @@ for project in projects:
                             elif switch_size <= 64 and num_node >= 512:
                                 continue
 
+                            if sequentiality == "true":
+                                output_path = (
+                                    f"output/{dataset}/SplayOpticNet_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                )
+                            else:
+                                output_path = (
+                                    f"output/{dataset}/SplayOpticNet_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                )
 
                             input_file = (
                                 f"input/projectorDS/{dataset}/{num_node}/{sim_id}_tor_{num_node}.txt"
                             )
-                            output_path = (
-                                f"output/{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
-                            )
+
                             sim_stream = f"logs/{output_path}sim.txt"
 
                             if not os.path.exists(f"logs/{output_path}"):

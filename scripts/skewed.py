@@ -33,7 +33,7 @@ x = [1] #skewed
 y = [0.4] #skewed
 
 #number of threads to simulation
-num_threads = 2
+num_threads = 1
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
@@ -90,12 +90,19 @@ for project in projects:
                                     continue
 
                                 dataset = f"{idx}-{idy}"
+                                if sequentiality == "true":
+                                    output_path = (
+                                        "output/skewed-" +
+                                        f"{dataset}/SplayOpticNet_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                    )
+                                else:
+                                    output_path = (
+                                        "output/skewed-" +
+                                        f"{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                    )
+
                                 input_file = (
                                     f"input/bursty/{dataset}/{num_node}/{sim_id}_tor_{num_node}.txt"
-                                )
-                                output_path = (
-                                    "output/skewed-" +
-                                    f"{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
                                 )
                                 sim_stream = f"logs/{output_path}sim.txt"
 

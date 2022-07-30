@@ -26,11 +26,11 @@ projects = [ "semiDisplayOpticNet" ]
 num_nodes = [ 367 ]
 datasets = [ "datasetC_pairs" ]
 switch_sizes = [ 16, 32, 64, -1 ]
-sequential = [ "false" ]
+sequential = [ "false", "true" ]
 mus = [ 4 ]
 
 #number of threads to simulation
-num_threads = 2
+num_threads = 1
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
@@ -77,8 +77,14 @@ for project in projects:
                         if switch_size == -1:
                             switch_size = 2 * num_node
 
+                        if sequentiality == "true":
+                            output_path = f"output/facebookDS/SplayOpticNet_{num_node}/{switch_size}/1/"
+
+                        else:
+                            output_path = f"output/facebookDS/{project}_{num_node}/{switch_size}/1/"
+
+
                         input_file = f"input/facebookDS/{dataset}.txt"
-                        output_path = f"output/facebookDS/{project}_{num_node}/{switch_size}/1/"
                         sim_stream = f"logs/{output_path}sim.txt"
 
                         if not os.path.exists(f"logs/{output_path}"):

@@ -25,7 +25,7 @@ projects = [ "semiDisplayOpticNet" ]
 # parameters of simulation
 num_nodes = [ 128, 256, 512, 1024 ]
 switch_sizes = [ 16, 32, 64, 128, 256, -1 ]
-sequential = [ "false" ]
+sequential = [ "false", "true" ]
 mus = [ 4 ]
 num_simulations = 30
 
@@ -35,7 +35,7 @@ x = [ 0.4 ]
 y = [ 1 ]
 
 #number of threads to simulation
-num_threads = 2
+num_threads = 1
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
@@ -92,12 +92,20 @@ for project in projects:
                                     continue
 
                                 dataset = f"{idx}-{idy}"
+
+                                if sequentiality == "true":
+                                    output_path = (
+                                        "output/bursty-" +
+                                        f"{dataset}/SplayOpticNet_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                    )
+                                else:
+                                    output_path = (
+                                        "output/bursty-" +
+                                        f"{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                    )
+
                                 input_file = (
                                     f"input/bursty/{dataset}/{num_node}/{sim_id}_tor_{num_node}.txt"
-                                )
-                                output_path = (
-                                    "output/bursty-" +
-                                    f"{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
                                 )
                                 sim_stream = f"logs/{output_path}sim.txt"
 

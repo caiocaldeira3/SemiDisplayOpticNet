@@ -95,9 +95,14 @@ public class CustomGlobal extends AbstractCustomGlobal {
 
     @Override
     public void preRound () {
+        if (this.isSequential && this.controller.getSeq()) {
+            Tuple<Integer, Integer> r = this.requestQueue.getNextRequest();
+            NetworkNode srcnode = (NetworkNode) Tools.getNodeByID(r.first + 1);
+            srcnode.newMessage(r.second + 1);
 
-        if (mustGenerateSplay && this.requestQueue.hasNextRequest()) {
-            if (!this.isSequential || this.controller.getSeq()) {
+            this.controller.setSeq();
+
+        } else if (!this.isSequential && mustGenerateSplay && this.requestQueue.hasNextRequest()) {
                 mustGenerateSplay = false;
 
                 double u = random.nextDouble();
@@ -110,9 +115,6 @@ public class CustomGlobal extends AbstractCustomGlobal {
                 Tuple<Integer, Integer> r = this.requestQueue.getNextRequest();
                 TriggerNodeOperation ted = new TriggerNodeOperation(r.first + 1, r.second + 1);
                 ted.startGlobalTimer(x);
-
-                this.controller.setSeq();
-            }
         }
 
     }
