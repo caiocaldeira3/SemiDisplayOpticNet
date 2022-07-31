@@ -25,17 +25,15 @@ projects = [ "semiDisplayOpticNet" ]
 # parameters of simulation
 num_nodes = [ 1024 ] # Fixed number of nodes
 datasets = [
-    "cesar_mocfe",
-    "cesar_nekbone",
     "exact_boxlib_cns_nospec_large",
     "exact_boxlib_multigrid_c_large"
 ]
-switch_sizes = [ 256, 512, 1024, -1 ]
-sequential = [ "false" ]
+switch_sizes = [ 256, -1 ]
+sequential = [ "true", "false" ]
 mus = [ 4 ]
 
 #number of threads to simulation
-num_threads = 1
+num_threads = 2
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"

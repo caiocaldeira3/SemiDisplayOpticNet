@@ -23,9 +23,9 @@ file_lock = threading.Lock()
 projects = [ "semiDisplayOpticNet" ]
 
 # parameters of simulation
-num_nodes = [ 128, 256, 512, 1024 ]
-switch_sizes = [ 16, 32, 64, 128, 256, -1 ]
-sequential = [ "false" ]
+num_nodes = [ 128 ]
+switch_sizes = [ 16 ]
+sequential = [ "true", "false" ]
 mus = [ 4 ]
 num_simulations = 30
 
@@ -33,7 +33,7 @@ x = [1] #skewed
 y = [0.4] #skewed
 
 #number of threads to simulation
-num_threads = 1
+num_threads = 2
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"

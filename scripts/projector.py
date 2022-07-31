@@ -25,13 +25,13 @@ projects = [ "semiDisplayOpticNet" ]
 # parameters of simulation
 num_nodes = [ 128 ]
 datasets = [ "tor" ]
-switch_sizes = [ 16, 32 ]
+switch_sizes = [ 16 ]
 mus = [ 4 ]
-sequential = [ "false" ]
+sequential = [ "true", "false" ]
 num_simulations = 30
 
 #number of threads to simulation
-num_threads = 1
+num_threads = 2
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
@@ -90,7 +90,7 @@ for project in projects:
                                 )
                             else:
                                 output_path = (
-                                    f"output/{dataset}/SplayOpticNet_{num_node}/{switch_size}/{mu}/{sim_id}/"
+                                    f"output/{dataset}/{project}_{num_node}/{switch_size}/{mu}/{sim_id}/"
                                 )
 
                             input_file = (

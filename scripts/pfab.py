@@ -24,13 +24,13 @@ projects = [ "semiDisplayOpticNet" ]
 
 # parameters of simulation
 num_nodes = [ 144 ]
-switch_sizes = [ 16, 32, 64, 128, -1 ]
-datasets = ["trace_0_1", "trace_0_5", "trace_0_8"]
-sequential = [ "false" ]
+switch_sizes = [ 16 ]
+datasets = [ "trace_0_5", "trace_0_8"]
+sequential = [ "true", "false" ]
 mus = [ 4 ]
 
 #number of threads to simulation
-num_threads = 1
+num_threads = 2
 
 java = "java"
 classpath = "binaries/bin:binaries/jdom.jar"
