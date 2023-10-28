@@ -1,7 +1,7 @@
 package projects.semiDisplayOpticNet.nodes.timers;
 
 import projects.semiDisplayOpticNet.CustomGlobal;
-import projects.opticalNet.nodes.nodeImplementations.NetworkNode;
+import projects.bstOpticalNet.nodes.nodeImplementations.NetworkNode;
 
 import sinalgo.nodes.timers.Timer;
 import sinalgo.tools.Tools;

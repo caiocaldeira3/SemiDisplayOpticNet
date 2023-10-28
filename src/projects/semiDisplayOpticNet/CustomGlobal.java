@@ -5,7 +5,7 @@ import java.util.Random;
 
 import projects.semiDisplayOpticNet.nodes.timers.TriggerNodeOperation;
 import projects.semiDisplayOpticNet.nodes.nodeImplementations.SemiDisplayNetController;
-import projects.opticalNet.nodes.nodeImplementations.NetworkNode;
+import projects.bstOpticalNet.nodes.nodeImplementations.NetworkNode;
 import projects.defaultProject.RequestQueue;
 
 import sinalgo.configuration.Configuration;
@@ -37,6 +37,7 @@ public class CustomGlobal extends AbstractCustomGlobal {
         String output = "";
         Integer switchSize = -1;
         Integer numberOfNodes = -1;
+        boolean mirrored = false;
 
         try {
 
@@ -65,6 +66,13 @@ public class CustomGlobal extends AbstractCustomGlobal {
 
             }
 
+            if (Configuration.hasParameter("mirrored")) {
+                mirrored = Configuration.getBooleanParameter("mirrored");
+
+            } else {
+                mirrored = true;
+            }
+
             if (Configuration.hasParameter("isSequential")) {
                 this.isSequential = Configuration.getBooleanParameter("isSequential");
             }
@@ -81,7 +89,7 @@ public class CustomGlobal extends AbstractCustomGlobal {
         }
 
         this.controller = new SemiDisplayNetController(
-            numberOfNodes, switchSize, netNodes
+            numberOfNodes, switchSize, netNodes, mirrored
         );
         this.controller.finishInitializationWithDefaultModels(true);
 
