@@ -14,11 +14,13 @@ public abstract class LoggerLayer extends SynchronizerLayer {
     protected String projectName;
 
     private DataSeries rotationCounter = new DataSeries();
-    private DataSeries alterationCounter = new DataSeries();
+    private DataSeries linkAlterationCounter = new DataSeries();
+    private DataSeries swtAlterationCounter = new DataSeries();
     private DataSeries messageRoutingCounter = new DataSeries();
     private DataSeries activeRequestsCounter = new DataSeries();
 
     private ArrayList<Long> activePortsPerSwitchRound;
+    private ArrayList<Long> roundAlterationsPerSwitch;
 
     private long activeRequests = 0;
     private long currentRoundRotations = 0;
@@ -72,6 +74,12 @@ public abstract class LoggerLayer extends SynchronizerLayer {
 
         this.logSparceLogger(this.switchesActivePortsPerRound, this.activePortsPerSwitchRound);
 
+        int roundSwitchAlterations = 0;
+        for (int swtIdx = 0; swtIdx < this.roundAlterationsPerSwitch.size(); swtIdx++) {
+            roundSwitchAlterations += this.roundAlterationsPerSwitch.get(swtIdx);
+        }
+        this.swtAlterationCounter.addSample(roundSwitchAlterations);
+
         if (this.roundCompletedRequests > 0) {
             this.throughputLog.logln(
                 this.projectName + "," + this.getCurrentRound() + "," + this.roundCompletedRequests
@@ -89,7 +97,8 @@ public abstract class LoggerLayer extends SynchronizerLayer {
     public void logEndOfSimulation () {
         this.operationsLog.logln("name,sum,mean,std_dvt,min,max");
         this.printRotationCounter();
-        this.printAlterationCounter();
+        this.printSwtAlterationCounter();
+        this.printLinkAlterationCounter();
         this.printMessageRoutingCounter();
         this.printActiveRequestsCounter();
 
@@ -142,7 +151,6 @@ public abstract class LoggerLayer extends SynchronizerLayer {
 
     }
 
-
     /**
      * Increment the number of alterations performed on a given round, updating this counter
      * for the parent node, child node and switch involved. An alteration occurs when you remove
@@ -151,7 +159,8 @@ public abstract class LoggerLayer extends SynchronizerLayer {
      * @param fromNode      the node connected to the input port
      */
     public void logIncrementAlterations (int swtId, InfraNode fromNode) {
-        this.alterationCounter.addSample(1);
+        this.linkAlterationCounter.addSample(1);
+        this.roundAlterationsPerSwitch.set(swtId, 1L);
 
         this.alterationLog.logln(
             this.projectName + "," + this.getCurrentRound() + "," + fromNode.getId() + "," + swtId
@@ -228,7 +237,7 @@ public abstract class LoggerLayer extends SynchronizerLayer {
      * @return The alteration Counter
      */
     public DataSeries getAlterationCounterSeries () {
-        return this.alterationCounter;
+        return this.linkAlterationCounter;
 
     }
 
@@ -253,10 +262,17 @@ public abstract class LoggerLayer extends SynchronizerLayer {
     }
 
     /**
-     * Print Alteration counter informations.
+     * Print Link Alteration counter informations.
      */
-    public void printAlterationCounter () {
-        this.printCounter(this.alterationCounter, "alteration");
+    public void printLinkAlterationCounter () {
+        this.printCounter(this.linkAlterationCounter, "link-alteration");
+    }
+
+    /**
+     * Print Switch Alteration counter informations.
+     */
+    public void printSwtAlterationCounter () {
+        this.printCounter(this.swtAlterationCounter, "swt-alteration");
     }
 
     /**
@@ -369,6 +385,9 @@ public abstract class LoggerLayer extends SynchronizerLayer {
      */
     public void resetRoundInfo () {
         this.activePortsPerSwitchRound = new ArrayList<>(
+            Collections.nCopies(this.getNumSwitches(), 0L)
+        );
+        this.roundAlterationsPerSwitch = new ArrayList<>(
             Collections.nCopies(this.getNumSwitches(), 0L)
         );
 
