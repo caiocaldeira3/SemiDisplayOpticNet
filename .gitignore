@@ -7,3 +7,5 @@ logs/
 src/projects/defaultProject/appConfig.xml
 *.pyc
 **/*-checkpoint*
+output/**
+venv/
